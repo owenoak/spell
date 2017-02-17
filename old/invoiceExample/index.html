@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href='styles.css' rel='stylesheet' type='text/css'/>
+		<script language='javascript' src='jquery.js'></script>
+	</head>
+	<body>
+		<script language='javascript'>
+			var file = window.location.search.substr(1);
+			$.ajax(file+".html", {dataType:"text"})
+				.then(function(contents) {
+					$("body").append($(contents));
+				}, function failure(){
+					$("body").append("File "+file+".html not found.");
+				});
+			console.warn(window.location.params);
+		</script>
+	</body>
+</html>

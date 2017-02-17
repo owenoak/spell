@@ -1,0 +1,132 @@
+define Visual
+	it has a visible property as a flag, default is true
+	its hidden property is its visible + false
+
+	it can show [with a visual effect, default fade in] [for a duration, default intstantly]
+	before it shows
+		send message showing
+	after it shows
+		send message shown
+
+	it can hide [with a visual effect, default fade out] [for a duration, default intstantly]
+	before it hides
+		send message hiding
+	after it hides
+		set my visibile to false
+		send message hidden
+
+	it has a left property as a number, default 0
+	it has a top property as a number, default 0
+	it has a width property as a positive number, default 0
+	it has a height property as a positive number, default 0
+
+	its location equals {its left, its top}
+	its size equals {its width, its height}
+	its bounds equals {its location, its size}
+	its rect equals {its left, its top, its width, its height}
+	its aspect [ratio] equals its width / its height
+
+	it can draw
+	it can update
+	it can resize
+	it can move
+
+	it has a margin property as {top (dimension), right (dimension), bottom (dimension), left (dimension)}
+	it has a padding property as {top (dimension), right (dimension), bottom (dimension), left (dimension)}
+	it has a resize anchor as one of: "top left", "top", "top right", "right", "bottom right", "bottom", "bottom left", "left", "center"
+
+
+define Scrollable as applies to Visible
+	it has a scroll width property as a positive number
+	it has a scroll height property as a positive number
+	its max scroll width equals max(0, its scroll width - its width)
+	its max scroll height equals max(0, its scroll height - its height)
+
+	it has a scroll left property as a number with min 0 and max its max scroll width
+	it has a scroll top property as a number with min 0 and max its max scroll height
+
+	it has a scroll speed as a duration, default instantly
+
+	on scroll to <left:number>, <top:number> [[over|for] <duration:duration>]
+		constrain left to 0 and my max scroll width
+		constrain top to 0 and my max scroll height
+
+		if left is my scroll left and top is my scroll top then return
+
+		if duration is empty then set duration to my scroll speed
+		if duration is not instantly
+			start animating over duration with message scrolling
+				set my scroll left to left
+				set my scroll top to top
+			when done
+				send message scrolled
+		else
+			set my scroll left to left
+			set my scroll top to top
+			send message scrolled
+
+	on scroll (left|horizontally) to <left:number> [[over|for] <duration:duration>]
+		tell me to scroll to left, my scroll top over duration
+
+	on scroll (top|vertically) to <top:number> [[over|for] <duration:duration>]
+		tell me to scroll to my scroll left, top over duration
+
+
+
+
+define Animation
+	it is a Visual
+
+	it has a length property as a time, default is 0:00
+	it has a current time property as a time, default is 0:00
+	its time remaining equals its length - its current time
+
+	it has a [play] speed property as a number, default is 1
+
+	it can play [with a speed, default 1] [for a duration, default indefinitely]
+	when it plays
+		send message started playing
+		set its is playing property to true
+		set its is stopped property to false
+	while it plays
+		send message playing
+		update its current time property
+		if its current time equals its length, tell it to stop
+
+	it can fast forward [with a speed, default 2] [for a duration, default indefinitely]
+	when it fast forwards
+		tell it to play with speed for duration
+
+
+	it can rewind [with a speed, default 1] [for a duration, default indefinitely]
+	when it rewinds
+		send message started rewinding
+	while it rewinds
+		send message rewinding
+		update its current time property
+		if its current time equals 0:00, tell it to stop
+
+	it can stop [after a duration, default instantly]
+	when it stops
+		send message stopped
+		set its is playing property to false
+		set its is stopped property to true
+
+	it can pause [after a duration, default instantly]
+	when it pauses
+		tell it to stop after duration
+
+
+define Movie
+	it is an Animation
+	it has a url
+	it has one or more movie files as urls of type Movie
+	it can have onr or more trailers as urls of type Movie
+	it can have one or more posters as urls of type Image
+	it can have one or more related links as {title, url}
+
+
+define Movie Player
+	it is a Control
+	it has children
+

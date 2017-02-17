@@ -1,0 +1,346 @@
+<h1>Dates in logic</h1>
+
+<notes>
+	<li>This is a good example of creating a Logic class which shadows a native class.</li>
+	<li>Lots of mixing of Javascript and Logic code.</li>
+</notes>
+
+<todo>
+	<li>Date ranges as numbers, eg: <e>days between <v>date</v> and <v>date</v></e></li>
+	<li>Relative time between two dates as fancy strings:  eg 2 months, 3 days</li>
+	<li>Relative time between now and a date as fancy strings:  eg 2 months ago</li>
+	<li>Time in the future/past:  30 days from now</li>
+	<li>Week numbers</li>
+</todo>
+
+
+<h2>"dynamic" constants for dates as numeric values</h2>
+
+
+<section title='Special Days'>
+	<notes>
+		<li>Return a new date which is accurate at the time called.</li>
+	</notes>
+	<singleton> <s><today/></s> (<date/>)
+	<lo>(<f><create/> <date/></f>)</lo>
+	</singleton>
+
+	<singleton> <s>tomorrow</s> (<date/>)
+	<lo>(<f><l>1</l> day after <today/></f>)</lo>
+	</singleton>
+
+	<singleton> <s>yesterday</s> (<date/>)
+	<lo>(<f><l>1</l> day before <today/></f>)</lo>
+	</singleton>
+</section>
+
+<section title='Years'>
+	<notes>
+		<li>Years in logic are 1-based, Javascript is 1-based.</li>
+	</notes>
+	<singleton> <s>this year</s> (<date/>)
+		<lo>(<e><v><today/>'s</v> year)</lo>
+	</singleton>
+
+	<singleton> <s>next year</s> (<date/>)
+	<lo>(<f><l>1</l> year after <today/></f>)</lo>
+	</singleton>
+
+	<singleton> <s>last year</s> (<number/>)
+	<lo>(<f><l>1</l> year after <today/></f>)</lo>
+	</singleton>
+</section>
+
+<section title='Months'>
+	<notes>
+		<li>Months in logic are 1-based, Javascript is 0-based.</li>
+	</notes>
+	<singleton> <s>this month</s> (<number/>)
+		<lo>(<e><v><today/>'s</v> month)</lo>
+	</singleton>
+</section>
+
+
+<section title='Days'>
+	<notes>
+		<li>Days in logic are 1-based, Javascript is 1-based.</li>
+	</notes>
+	<singleton> <s>this date</s> (<number/>)
+		<lo>(<e><v><today/>'s</v> date)</lo>
+	</singleton>
+</section>
+
+
+<section title='Day of week'>
+	<notes>
+		<li>Days of week in logic are 1-based, Javascript is 0-based.</li>
+	</notes>
+	<singleton> <s>this week day</s> (<number/>)</singleton>
+	<singleton> <s>this day of week</s> (<number/>)</singleton>
+	<singleton> <s>this day of the week</s> (<number/>)
+		<lo>(<e><v>the day name</v> <of/> <today/></e>)</lo>
+	</singleton>
+</section>
+
+<h2><date/> object definition</h2>
+
+<section title='Constructor'>
+<a/> <date/> <is/> <an/> <object/>:
+	<property><internal/> <v>js date</v>, <a/> <t>Date<t/></property>
+</section>
+
+<section title='Creation with no arguments'>
+	<event> <e>created</e>:
+		<code class='js'>
+			<c>the jsDate is already set to some random time today</c>
+			<js><this/>.<v>jsDate</v> = <f><new/> <JSDate/>()</f>;</js>
+			<js><f><this/>.<v>jsDate</v>.setHours(0)</f>;</js>
+			<js><f><this/>.<v>jsDate</v>.setMinutes(0)</f>;</js>
+			<js><f><this/>.<v>jsDate</v>.setSeconds(0)</f>;</js>
+			<js><f><this/>.<v>jsDate</v>.setMilliseconds(0)</f>;</js>
+		</code>
+	</event>
+</section>
+
+
+<section title='Creation with a JS Date'>
+	<event> <e>created</e> <with/> <v>the date</v> (<t>JSDate<t/>):
+		<code class='js'>
+			<js><var/> <v>theYear</v> <k>=</k> <f><v>theDate</v>.getFullYear()</f>;</js>
+			<js><var/> <v>theMonth</v> <k>=</k> <f><v>theDate</v>.getMonth()</f>;</js>
+			<js><var/> <v>theDay</v> <k>=</k> <f><v>theDate</v>.getDate()</f>;</js>
+			<js><this/>.<v>jsDate</v> = <f><new/> <JSDate/>(<v>theYear</v>, <v>theMonth</v>, <v>theDay</v>, <l>0</l>, <l>0</l>, <l>0</l>, <l>0</l>)</f>;</js>
+		</code>
+	</event>
+</section>
+
+<section title='Creation with another date object'>
+	<event> <e>created</e> <with/> <v>the date</v> (<date/>):
+		<code class='js'>
+			<js><var/> <v>theYear</v> <k>=</k> <f><v>theDate.jsDate</v>.getFullYear()</f>;</js>
+			<js><var/> <v>theMonth</v> <k>=</k> <f><v>theDate.jsDate</v>.getMonth()</f>;</js>
+			<js><var/> <v>theDay</v> <k>=</k> <f><v>theDate.jsDate</v>.getDate()</f>;</js>
+			<js><this/>.<v>jsDate</v> = <f><new/> <JSDate/>(<v>theYear</v>, <v>theMonth</v>, <v>theDay</v>, <l>0</l>, <l>0</l>, <l>0</l>, <l>0</l>)</f>;</js>
+		</code>
+	</event>
+
+</section>
+<section title='Creation with date string'>
+	<event> <e>created</e> <with/> <v>date string (<string />)</v>:
+		<code class='lo'>
+			<c>GLOBAL FUNCTION:   TODO!!!</c>
+			<lo><return/> <f>parse date <v>date string</v></f></lo>
+		</code>
+	</event>
+
+</section>
+<section title='Creation with a specific year, month, day'>
+	<event> <e>created</e> <with/> year <v>the year</v> (<number/>),
+					month <v>the month</v> (<number/> <default/>: <l>1</l>),
+					day <v>the day</v> (<number/> <default/>: <l>1</l>):
+		<js><this/>.<v>jsDate</v> = <f><new/> <JSDate/>(<v>theYear</v>, <v>theMonth</v>, <v>theDay</v>, <l>0</l>, <l>0</l>, <l>0</l>, <l>0</l>)</f>;</js>
+</section>
+
+<section title='Years'>
+	<property> year, <a/> number:
+		<js>(<f><this/>.<v>jsDate</v>.getFullYear()</f>)</js>
+	</property>
+</section>
+
+<section title='Months'>
+	<notes>
+		<li>Months in logic are 1-based, Javascript is 0-based.</li>
+	</notes>
+	<property> <v>month</v>, <a/> <number/>
+		<js>(<f><this/>.<v>jsDate</v>.getMonth()</f> + <l>1</l>)</js>
+	</property>
+
+	<property> <v>month name, <a/> <string /></v>:
+		<lo>(<f><item/> <v><my/> month</v> <of/> <v><my/> month names</v></f>)</lo>
+	</property>
+
+	<translate> <v>month names</v>:
+		<literal>"January", "February", "March", "April", "May", "June", "July",
+		"August", "September", "October", "November", "December"</literal>
+	</translate>
+
+	<property> <v>short month</v>, <a/> <string />:
+		<lo>(<f><item/> <v><my/> month</v> <of/> <v><my/> short month names</v></	f>)</lo>
+	</property>
+
+	<translate> <v>short month names</v>:
+		<literal>"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"</literal>
+	</translate>
+
+	<property> <v>month letter</v>, <a/> <string />:
+		<lo>(<f><item/> <v><my/> month</v> <of/> <v><my/> month letters</v></f>)</lo>
+	</property>
+
+	<translate> <v>month letters</v>:
+		<literal>"J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"</literal>
+	</translate>
+</section>
+
+<section title='Day of the Month'>
+	<notes>
+		<li>Days in logic are 1-based, Javascript is 1-based.</li>
+	</notes>
+	<property> day, <a/> <number/></property>
+	<property> date, <a/> <number/>
+		<js>(<f><this/>.<v>jsDate</v>.getDate()</f>)</js>
+	</property>
+</section>
+
+<section title='Day of the Week'>
+	<notes>
+		<li>Months in logic are 1-based, Javascript is 0-based.</li>
+	</notes>
+	<property> <v>week day number</v>, <a/> <number/>:
+		<js>(<f><this/>.<v>jsDate</v>.getDay()</f> + <l>1</l>)</js>
+	</property>
+
+	<property> <v>week day</v>, <a/> <string />:</property>
+	<property> <v>day name</v>, <a/> <string />:
+	<lo>(<item/> <v><my/> week day number</v> <of/> <v><my/> day names</v>)</lo>
+	</property>
+
+	<translate> <v>day names</v>:
+		<literal>"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"</literal>
+	</translate>
+
+	<property> <v>short day name</v>, <a/> <string />:
+		<lo>(<f><item/> <v><my/> day of week</v> <of/> <v><my/> short day names<v></f>)</lo>
+	</property>
+	<translate> <v>short day names</v>:
+		<literal>"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"</literal>
+	</translate>
+
+</section>
+
+
+
+<h2>Adjusting dates in-place</h2>
+
+<section title='Add or subtract Years from a date'>
+	<notes>
+		<li>Modifies the date in-place</li>
+	</notes>
+	<method> <f>add <v>quantity (<number/>)</v> year <to/> <v>the date</v> (<date/>)</f>:</method>
+	<method> <f>add <v>quantity (<number/>)</v> years <to/> <v>the date</v> (<date/>)</f>:
+		<code class='js'>
+			<js><v>theDate</v>.<v>jsDate</v> = <f><new/> <JSDate/>(</js>
+			<js>		<e><v>theDate</v>.<v>jsDate</v>.getFullYear()</e> + <v>quantity</v>,</js>
+			<js>		<e><v>theDate</v>.<v>jsDate</v>.getMonth()</e>,</js>
+			<js>		<e><v>theDate</v>.<v>jsDate</v>.getDay()</e>)</f>;</js>
+		</code>
+	</method>
+
+	<method> <f>subtract <v>quantity (<number/>)</v> year <from/> <v>the date</v> (<date/>)</f>:</method>
+	<method> <f>subtract <v>quantity (<number/>)</v> years <from/> <v>the date</v> (<date/>)</f>:
+		<code class='lo'>
+			<lo><f>negate <v>quantity</v></f></lo>
+			<lo><f>add <v>quantity</v> years <to/> <v>the date</v></f></lo>
+		</code>
+	</method>
+</section>
+
+<section title='Add or subtract Months from a date'>
+	<notes>
+		<li>Modifies the date in-place</li>
+	</notes>
+	<method> <f>add <v>quantity (<number/>)</v> month <to/> <v>the date</v> (<date/>)</f>:</method>
+	<method> <f>add <v>quantity (<number/>)</v> months <to/> <v>the date</v> (<date/>)</f>:
+		<code class='js'>
+			<js><v>theDate</v>.<v>jsDate</v> = <f><new/> <JSDate/>(</js>
+			<js>		<e><v>theDate</v>.<v>jsDate</v>.getFullYear()</e>,</js>
+			<js>		<e><v>theDate</v>.<v>jsDate</v>.getMonth()</e> + <v>quantity</v>,</js>
+			<js>		<e><v>theDate</v>.<v>jsDate</v>.getDay()</e>)</f>;</js>
+		</code>
+	</method>
+
+	<method> <f>subtract <v>quantity (<number/>)</v> month <from/> <v>the date</v> (<date/>)</f>:</method>
+	<method> <f>subtract <v>quantity (<number/>)</v> months <from/> <v>the date</v> (<date/>)</f>:
+		<code class='lo'>
+			<lo><f>negate <v>quantity</v></f></lo>
+			<lo><f>adjust <v>the date</v> <by/> <v>quantity</v> months</f></lo>
+		</code>
+	</method>
+</section>
+
+<section title='Add or subtract Days from a date'>
+	<notes>
+		<li>Modifies the date in-place</li>
+	</notes>
+	<method> <f>add <v>quantity (<number/>)</v> day <to/> <v>the date</v> (<date/>)</f>:</method>
+	<method> <f>add <v>quantity (<number/>)</v> days <to/> <v>the date</v> (<date/>)</f>:
+		<code class='js'>
+			<js><v>theDate</v>.<v>jsDate</v> = <f><new/> <JSDate/>(</js>
+			<js>		<e><v>theDate</v>.<v>jsDate</v>.getFullYear()</e>,</js>
+			<js>		<e><v>theDate</v>.<v>jsDate</v>.getMonth()</e>,</js>
+			<js>		<e><v>theDate</v>.<v>jsDate</v>.getDay()</e> + <v>quantity</v>)</f>;</js>
+		</code>
+	</method>
+
+	<method> <f>subtract <v>quantity (<number/>)</v> day <from/> <v>the date</v> (<date/>)</f>:</method>
+	<method> <f>subtract <v>quantity (<number/>)</v> days <from/> <v>the date</v> (<date/>)</f>:
+		<code class='lo'>
+			<lo><f>negate <v>quantity</v></f></lo>
+			<lo><f>adjust <v>the date</v> <by/> <v>quantity</v> days</f></lo>
+		</code>
+	</method>
+</section>
+
+<h2>Return new dates relative to another date</h2>
+
+<section title='Offsetting by years'>
+	<notes>
+		<li>Returns a new date</li>
+	</notes>
+	<expression> <v>quantity</v> (<number/>) year before <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) years before <v>the date</v> (<date/>):
+		<lo>(subtract <v>quantity</v> years <from/> (<create/> date <with/> <v>the date</v>))</lo>
+	</expression>
+
+	<expression> <v>quantity</v> (<number/>) year after <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) years after <v>the date</v> (<date/>):
+	<expression> <v>quantity</v> (<number/>) year from <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) years from <v>the date</v> (<date/>):
+		<lo>(add <v>quantity</v> years <to/> (<create/> date <with/> <v>the date</v>))</lo>
+	</expression>
+</section>
+
+<section title='Offsetting by months'>
+	<notes>
+		<li>Returns a new date</li>
+	</notes>
+	<expression> <v>quantity</v> (<number/>) month before <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) months before <v>the date</v> (<date/>):
+		<lo>(subtract <v>quantity</v> months <from/> (<create/> date <with/> <v>the date</v>))</lo>
+	</expression>
+
+	<expression> <v>quantity</v> (<number/>) month after <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) months after <v>the date</v> (<date/>):
+	<expression> <v>quantity</v> (<number/>) month from <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) months from <v>the date</v> (<date/>):
+		<lo>(add <v>quantity</v> months <to/> (<create/> date <with/> <v>the date</v>))</lo>
+	</expression>
+</section>
+
+<section title='Offsetting by days'>
+	<notes>
+		<li>Returns a new date</li>
+	</notes>
+	<expression> <v>quantity</v> (<number/>) day before <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) days before <v>the date</v> (<date/>):
+		<lo>(subtract <v>quantity</v> days <from/> (<create/> date <with/> <v>the date</v>))</lo>
+	</expression>
+
+	<expression> <v>quantity</v> (<number/>) day after <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) days after <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) day from <v>the date</v> (<date/>):</expression>
+	<expression> <v>quantity</v> (<number/>) days from <v>the date</v> (<date/>):
+		<lo>(add <v>quantity</v> days <to/> (<create/> date <with/> <v>the date</v>))</lo>
+	</expression>
+</section>
+

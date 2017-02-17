@@ -1,0 +1,75 @@
+Widget: noun
+	- type: adjective: choice
+
+	- id: adjective: identifier
+	- title: adjective: string
+	- global: adjective: boolean
+
+	- parent: adjective: widget
+
+	- visible: adjective: boolean
+	- show: verb => self
+	- hide: verb => self
+	- toggle: verb(boolean?) => self			<- awkward
+
+	- show style: adverb: choice
+	- show speed: adverb: duration
+	- hide style: adverb: choice
+	- hide speed: adverb: duration
+
+	- enabled: adjective: boolean
+	- enable: verb(boolean?) => self
+	- disable: verb => self
+
+	- location: adjective: point
+	- size: adjective: point
+	- rect: adjective: rect
+	- global rect: adjective: rect
+	- offset rect: adjective: rect
+	- anchor point: adjective: choice
+	- growth strategy: adjective: choice
+
+	- move: verb(rect) => self
+	- move offset: verb(rect) => self
+	- move globally: verb(rect) => self
+
+	- scrolls: adjective: choice: yes, no, horizontally, vertically
+	- scroll horizontally: adjective: boolean
+	- scroll vertically: adjective: boolean
+	- scroll top: adjective: number
+	- scroll left: adjective: number
+	- scroll right: adjective: number
+	- scroll bottom: adjective: number
+	- scroll rect: adjective: rect
+	- scroll to: verb(left, top, right, bottom) => self
+	- scroll speed: adverb: duration
+	- scroll strategy: adverb: choice
+
+	- has header: adjective: boolean
+	- has footer: adjective: boolean
+	- showing header: adjective: boolean
+	- showing footer: adjective: boolean
+	- showing left sidebar: adjective: boolean
+	- showing right sidebar: adjective: boolean
+
+	- show header: verb(boolean)
+	- hide header: verb
+
+
+
+--------------------------------
+
+- if we haven't been "drawn", everything happens instantaneously
+- if we have, our duration/style modifiers take effect
+
+- syntactic sugar ensures that we always stay consistents
+	- however it's most convenient to express the transform, everything else balances
+
+- distinguish between base attributes ("scroll position") and all variants,
+	so you can observe the base and all sugary variants will always trigger appropriate handlers
+
+- for every noun/adjective/adverb/verb:
+	- we have a "before change" and "after change" which fires code
+		:after scroll position changes
+			- update children...
+

@@ -1,0 +1,24 @@
+
+## Concepts / Capabilities
+
+- singular <-> plural mapping
+- object semantics
+- multi inhertance through class composition
+- very powerful getters/setters ala hope
+- mobx semantics for reactivity
+	- internally distinguish between constants, props and state
+	- automatically note computed
+- methods applied in a object/functional way:
+	> something(item)
+	< (item) => item && typeof item.something === "function" ? item.something() : _.something(item)
+
+
+- "warn" vs "throw"
+	- a "warn" is like a "throw" in that it bubbles out of the current context
+		and may be caught, but it doesn't halt execution.
+	- use "warn"s when, eg:
+		- attempting to coerce a value and it doesn't work
+		- adding an empty value to a "non-empty list"
+
+
+- mixins via functional inheritance

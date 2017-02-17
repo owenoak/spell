@@ -1,0 +1,107 @@
+Array / Set / Index semantics
+
+
+### Collection Datatypes
+
+- `list` as the generic term for an array
+	- iteration is in array order
+	- lists should be 1-based ???
+
+- `set` as the generic term for an unordered set
+	- iteration is random
+
+- `index` as generic term for a map of `{ key => value }` or `{ key => [values] }`
+	- iteration is in key insert order by default
+
+
+
+
+
+
+### Collection opterations
+
+= merge <object1> with <object1>
+	<= Object.assign(object1, object2);
+	TODO: check order here...
+
+= merge <object1> and <object2> into <otherObject>
+	<= var otherObject = Object.assign({}, object1, object2);
+
+- deep(ly) merge <object1> and <object2> into <otherObject>
+	<= var otherObject = _.merge({}, object2, object1);
+
+- items <#> through <#> of <collection>
+- items of <collection> starting with <#>
+- <ordinal> through <ordinal> items of <collection>
+- every <ordinal> item of <collection>
+
+
+- items of <collection> <whereExpression>
+
+- for each in <collection> do...end for
+- for each <item> in <collection> do...end for
+- for each <item>, <index> in <collection> do...end for
+	= for each in products do...
+	= for each product in products do...
+	= for each product, index in products do...
+	= for each product, key in productsIndex do...
+
+!! implicitly puts results into array (`the results`)
+!! `for each in` vs `for each of`
+
+- get <expression> for each (<item>) in <collection>
+	= get property key for each in products
+	= get product.brand.id for each product in products
+
+
+- group <collection> into chunks of 3
+	=> array of same type as iterables of size 3 or less
+
+- group <collection> by <expression>
+	= group products by property brandId
+	=> index of `{ foo => [items] }`
+
+- (add | concatenate) <collection> and <collection>
+
+- remove (<quantity>) (<items>) from <collection> <whereExpression>
+	= remove first five items from products
+	= remove from products where price is less than 10
+	= remove all from products where brand.id is "SomeBrand"
+	= remove first five items from products where sale price is empty
+	= remove last item from products where...
+
+	= remove empty items from <collection>
+	= remove duplicates from <collection>
+	= remove duplicate items from <collection>
+
+- move <item> to <position> of <collection>
+	- e.g. move "Ace" to the end of list
+
+= (the) differences (in | between) <collection> and <collection>
+= common items (in | between) <collection> and <collection>
+
+= fill (quantity) (<items>) of <collection> with <expression>
+
+= find position of <item> in <collection> (starting from <ordinal>)
+= find last position of <item> in <collection>
+= find position of (ordinal) <item> in <collection> where <expression>
+= find (quantity) positions (of <items>) in <collection> where <expression>
+	= find first 5 positions in products where brand.id is "SomeBrand"
+= find next position?
+
+= (length | size | number of items) of <collection> <whereExpression>
+
+-- join?
+
+- every <item> of <collection> <expression>
+- (any | some | at least one) <items> of <collection> <expression>
+
+
+
+= sort <orderedIterable> by <expression> (with default <value>)
+	= sort products by key with default 10
+
+= reverse <collection>
+= (randomize | shuffle) <collection>
+
+= <collection> includes <value> (or <value>) (starting at <ordinalItem>)

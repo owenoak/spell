@@ -1,0 +1,342 @@
+.bold()		{	font-weight:500;	}
+.veryBold()	{	font-weight:700;	}
+
+
+body {
+	font-family:Gotham;
+	font-weight:300;
+}
+
+
+h1 {
+	margin-bottom:.25em;
+	border-bottom:1px solid #999;
+}
+
+h2 {
+	margin-bottom:.25em;
+	border-bottom:1px solid #ccc;
+}
+
+h3, .h3 {
+	.veryBold();
+	font-size:1.2em;
+	margin:1em 0 .25em 0;
+	border-bottom:1px solid #eee;
+}
+
+
+
+.list() {
+	display: block;
+	font-size:.8em;
+	margin:.4em 0 .4em 1em;
+    -moz-padding-start: 1em;
+    -webkit-padding-start: 1em;
+}
+
+notes {
+	.list();
+}
+note {
+	display:inline-block;
+	font-size:.6em;
+	float:right;
+}
+
+todo {
+	.list();
+		margin:1em 0 1em 1em;
+	color:green;
+
+	&:before {
+		display:block;
+		content:"TODO:";
+		font-weight:bold;
+		margin-left:-2em;
+	}
+}
+
+
+section {
+	display:block;
+	margin-left:2em;
+	&:before {
+		.bold();
+		display:block;
+		content:attr(title);
+		margin:1em 0 .25em 0;
+		border-bottom:1px solid #eee;
+		opacity:.5;
+	}
+}
+
+
+
+// <k>keyword</k>
+k, .k {
+	.bold();
+	color:green;
+}
+keyword {
+	.k();
+}
+.keyword(@name) {
+	.k();	&:before{ content:@name; }
+}
+
+
+.topLevelKeyword(@name) {
+	clear:both;
+	display:block;
+	margin-left:1em;
+	&:before { content:@name; .k()};
+	padding-left:1em;
+	text-indent:-1em;
+}
+
+
+p, .p {
+	display:inline;
+	margin:0;
+	font-style:italic;
+	white-space:nowrap;
+}
+property {
+	.topLevelKeyword("with ");
+}
+
+translate {
+	.topLevelKeyword("translate ");
+}
+
+
+//<v>variable</v>
+v, .v {
+	font-style:italic;
+	white-space:nowrap;
+}
+.variable(@name) {
+	.v();	&:before{ content:@name; }
+}
+
+//<s>singleton or constant<s>
+s, .s {
+	color:blue;
+	text-decoration:none;
+	font-style:italic;
+}
+singleton {
+	.topLevelKeyword("singleton ");
+}
+.singleton(@name) {
+	.s();	&:before{ content:@name; }
+}
+
+//<t>type</t>
+t, .t {
+	color:blue;
+}
+.type(@name) {
+	.t(); &:before { content: @name }
+}
+
+
+
+//<c>comment</c>
+c, comment {
+	display:block;
+	font-style:italic;
+	color:#999;
+//	white-space:pre;
+	padding-left:.3em;
+
+	&:before {
+		content:"// ";
+	}
+}
+
+//<ic>inline comment</ic>
+ic, inline-comment {
+	font-style:italic;
+	color:#999;
+}
+
+
+//<f>function</f>
+f, .f {
+	display:inline;
+	border-bottom:1px dotted rgba(0,0,0,.5);
+
+	f,
+	e,
+	x {
+//		display:inline-block;
+		padding-bottom:1px;
+	}
+}
+method {
+	.topLevelKeyword("to ");
+	 & > f {
+	 	display:inline;
+	 }
+}
+
+
+//<e>event</e>
+e, .e {
+	.f();
+}
+event {
+	.topLevelKeyword("when ");
+}
+.event(@name) {
+	.e(); &:before { content: @name }
+}
+
+
+//<x>expresison</x>
+x, .x {
+	.f();
+}
+expression {
+	.topLevelKeyword("expression ");
+}
+.expression(@name) {
+	.x(); &:before { content: @name }
+}
+
+
+.colorBlock() {
+	display:block;
+	margin:.25em 0 1em 1em;
+	padding:.3em .3em .3em .3em;
+	text-indent:0;
+}
+
+
+@JS_CODE_COLOR : #fbe6ea;
+@LOGIC_CODE_COLOR : #eee;
+
+// generic code
+code, .code {
+	.colorBlock();
+	background-color:@LOGIC_CODE_COLOR;
+	font:inherit;
+//	white-space:pre;
+//	font:monospace;
+
+	&.js {
+//		color:salmon;
+		background-color:@JS_CODE_COLOR;
+	}
+}
+//<lo>logic code</lo>
+lo, .logic {
+	.code();
+//	white-space:pre;
+}
+
+
+//<js>javascript</js>
+js, .javascript {
+	.logic();
+	white-space:pre;
+	background-color:@JS_CODE_COLOR;
+//	color:salmon;
+}
+
+code > c {}
+
+code lo,
+code js {
+	padding-top:0;
+	padding-bottom:0;
+	margin-left:0;
+	margin-top:0;
+	margin-bottom:0;
+}
+
+//<l>literal</l>
+l, .l {
+	color:green;
+}
+literal {
+	.l();
+	.colorBlock();
+	background-color:rgba(0,0,0,.05);
+}
+
+literal-list {}
+
+
+
+//common keywords:
+
+//when 		{ .keyword("when"); }
+a 			{ .keyword("a"); }
+an 			{ .keyword("an"); }
+and 		{ .keyword("and"); }
+as 			{ .keyword("as"); }
+between	 	{ .keyword("between"); }
+by			{ .keyword("by"); }
+called	 	{ .keyword("called"); }
+create	 	{ .keyword("create"); }
+default	 	{ .keyword("default"); }
+defaults	{ .keyword("defaults"); }
+empty	 	{ .keyword("empty"); }
+false 		{ .keyword("false"); }
+from	 	{ .keyword("from"); }
+if			{ .keyword("if"); }
+internal	{ .keyword("internal"); }
+into		{ .keyword("into"); }
+is			{ .keyword("is"); }
+item		{ .keyword("item"); }
+my		 	{ .keyword("my"); }
+new		 	{ .keyword("new"); }
+of 			{ .keyword("of"); }
+optional	{ .keyword("optional"); }
+or 			{ .keyword("or"); }
+otherwise 	{ .keyword("otherwise"); }
+put			{ .keyword("put"); }
+return	 	{ .keyword("return"); }
+returns 	{ .keyword("returns"); }
+//singleton 	{ .keyword("singleton "); }
+set			{ .keyword("set"); }
+this	 	{ .keyword("this"); }
+the 		{ .keyword("the"); }
+to 			{ .keyword("to"); }
+true 		{ .keyword("true"); }
+type		{ .keyword("type"); }
+var			{ .keyword("var "); }
+which		{ .keyword("which"); }
+with 		{ .keyword("with "); }
+
+
+// common types:
+column		{ .type("column"); }
+currency	{ .type("currency"); }
+date		{ .type("date"); }
+document	{ .type("document"); }
+integer		{ .type("integer"); }
+invoice		{ .type("invoice"); }
+flag		{ .type("flag"); }
+JSDate		{ .type("JSDate"); }
+list 		{ .type("list"); }
+number		{ .type("number"); }
+object		{ .type("object"); }
+row			{ .type("row"); }
+sequence	{ .type("sequence"); }
+string		{ .type("string"); }
+table		{ .type("table"); display:inline-block;}
+text		{ .type("text"); }
+user		{ .type("user"); }
+users		{ .type("users"); }
+
+
+// common singletons
+logic		{ .singleton("logic"); }
+today		{ .singleton("today"); }
+
+
+

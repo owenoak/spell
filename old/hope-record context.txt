@@ -1,0 +1,116 @@
+Hope / Records context
+
+Imagine:
+	- we have a bunch of records in a mongo DB, accessible via Meteor (say "Products")
+	- we can filter the list by its various fields into subsets
+
+What are interesting things to do with these Products?
+	- define derived fields (eg: "price display") generically for all representations
+	- display / edit an existing one using various forms
+	- create a new one using various forms
+	- delete one
+	- delete all which match a filter
+	- display a (filtered, sortable) table of them
+	- search for an interesting set of products to display
+
+Forms:
+	- a "form" is simply an HTML / CSS / JS representation of one record
+	-
+
+
+
+Filtering
+	- all products
+	- all products CLAUSE
+		- with FIELD [= | equal to | not equal to] VALUE
+		- where FIELD (= | is | is not | is greater than | is less than) VALUE
+		- where FIELD (is in | is one of | is not in | is not one of) VALUE or VALUE or VALUE
+		- which (have | do not have) (a | an) FIELD
+		- which (have | do not have) (a | an) FIELD [which] OPERATOR VALUE
+		- CLAUSE and CLAUSE
+		- CLAUSE or CLAUSE
+		- CLAUSE and not CLAUSE
+		- CLAUSE or not CLAUSE
+		- CLAUSE sorted by FIELD [ascending | descending | alphabeticaly | numerically]
+		- CLAUSE sorted by FIELD [...] and FIELD [...]
+
+
+	- examples
+		- the entire set
+			- all products
+
+		- property existance / enumeration
+			- products which have a brand
+			- products which do not have a brand
+			- products which have two brands
+			- products which have exactly two brands
+			- products which have at least two brands
+			- products which have more than two brands
+
+		- matching single full values
+			- products with brand "Macy's"
+			- products with brand = "Macy's"
+			- products with brand equal to "Macy's"
+			- products with brand not equal to "Macy's"
+			- products with brand greater than "Macy's"
+			- products with brand less than "Macy's"
+
+		- matching a list of values on one field:
+			- products where brand is "Macy's" or "Nordstrom" or "Forever21"
+			- products where brand is one of "Macy's" or "Nordstrom" or "Forever21"
+			- products where brand is not one of ("Macy's", "Nordstrom", "Forever21")
+			- products where brand is in my favorite brands
+
+		- matching substring values
+			- products where brand contains "Macy's"
+			- products where brand does not contain "Macy's"
+			- products where brand starts with "Macy's"
+			- products where brand does not start with "Macy's"
+			- products where brand ends with "Macy's"
+			- products where brand does not end with "Macy's"
+
+		- subsetting:
+			- the first product ...
+			- the last product ...
+			- the first 10 products of ...
+			- items 2 to 5 of ...
+			- products 2 to 5 where ...
+			- all even products where ...
+			- every other product where ...
+			- every third product where ...
+
+
+
+	- compound
+		- all products with brand in "Macy's" or "Nordstrom" or with price less than 100
+
+
+Terminology:
+	- a "product" is a kind of "record"
+		- (now we can use "product" and "record" interchangably)
+	- "item" and "record" are synonymous
+	- a set of "records" makes a "list" or "set"
+		- assume an inherent order which can be modified
+
+
+Users:
+	- the current user is "I" or "me" or "my"
+	- other users are tracked as variables
+
+
+
+NOTES
+	- if we're creating our own language constructrs, typing seems very important
+	- quickly shifting nested scopes seems very important
+		? multiple inheritance?
+	- use reserved words "where", "with" etc to quickly narrow down structure?
+
+
+
+
+Assumptions
+	- there's only one type of XXX available
+		- all actions/adjectives/etc will work for that type
+		- customizing a type by, say, adding fields is different than having 2 different types
+	- you're building / compiling alongside an IDE which is hanging things in virtual space
+		-

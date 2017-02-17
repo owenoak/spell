@@ -1,0 +1,284 @@
+<h1>Invoice</h1>
+
+<notes>
+	<li></li>
+</notes>
+
+<todo></todo>
+
+
+<h2><invoice/> class definition</h2>
+
+<section title='Constructor'>
+<an/> <invoice/> <is/> <a/> <document/>:
+</section>
+
+<section title='Current state'>
+	<property><p>state</p> <keyword>as one of:</keyword> <literal-list><l>"active"</l>, <l>"submitted"</l> <or/> <l>"invalid"</l></literal-list>
+		<note>enumerated type, defaults to first value</note>
+	</property>
+
+	<property><p>invoice is active</p>: <x><x><my/> <p>state</p></x> <is/> <l>"active"</l></x>
+		<note>boolean flag (getter)</note>
+	</property>
+
+	<property><p>invoice is invalid</p>: <x><x><my/> <p>state</p></x> <is/> <l>"invalid"</l></x>
+		<note>boolean flag (getter)</note>
+	</property>
+
+	<property><p>invoice has been submitted</p>: <x><x><my/> <p>state</p></x> <is/> <l>"submitted"</l></x>
+		<note>boolean flag (getter)</note>
+	</property>
+</section>
+
+<section title='Invoice number/name'>
+	<property><p>invoice number</p>, <a/> <sequence/>
+		<note>sequence for the class, auto-increments on "create"</note>
+	</property>
+
+	<property><p>invoice name</p>: <l>"Invoice <p>invoice number</p>"</l>
+		<note>getter which interpolates the string</note>
+	</property>
+</section>
+
+<section title='Invoice number/name'>
+	<property><p>owner</p>, <a/> <user/>, <k>which defaults to</k> <s>the current user</s>
+		<note>property with type and default value</note>
+		<note>the current user = the logged in user</note>
+	</property>
+
+	<property><p>recipients</p>, <te><a/> <list/> <of/> <users/></te>
+		<note>value is empty on creation</note>
+	</property>
+</section>
+
+<section title='Invoice time range'>
+	<property><p>creation date</p>, <a/> <date/>, <k>which defaults to</k> <s>today</s>
+		<note>set on construction</note>
+	</property>
+
+	<property><p>start date</p>, <a/> <date/>, <k>which defaults to</k> <s>today</s>
+	</property>
+
+	<property><p>end date</p>, <a/> <date/>, <k>which defaults to</k> <s>today</s>
+	</property>
+</section>
+
+<section title='Timesheet'>
+	<property><p>timesheet</p>, <a/> <table/>:
+		<note>property with default value</note>
+
+		<property><p>columns</p>:
+			<note>"columns" is a property of a table</note>
+
+			<property>
+				<k>column</k> <v>worker</v>:
+					<note>creates column w/ name "worker" and properties:</note>
+					<property><p>type</p> = <user/></property>
+					<property><p>format</p> = <l>"<p>first name</p> <p>first letter <of/> last name</p>."</l></property>
+					<property><p>title</p> = <l>"Who"</l></property>
+			</property>
+
+			<property>
+				<k>column</k> <v>date</v>:
+					<property><p>type</p> = <date/></property>
+					<property><p>format</p> = <l>"<p>day of week letter</p> <p>month number</p>-<p>day</p>-<p>short year</p>"</l></property>
+			</property>
+
+			<property>
+				<k>column</k> <v>activity</v>:
+					<property><p>type</p> = <text/></property>
+			</property>
+
+			<property>
+				<k>column</k> <v>hours</v>:
+					<property><p>type</p> = <number/></property>
+					<property><p>precision</p> = <l>1</l></property>
+					<note>"precision" is a property of numbers</note>
+			</property>
+
+			</property>
+
+			<property>
+				<k>column</k> <v>charge</v>:
+					<property><p>type</p> = <currency/></property>
+					<property><p>format</p> = <l>"$<v>value</v>"</l></property>
+					<property><p>formula</p>:
+						<lo><v>cell hours</v> * <v>the hourly rate</v> <p>of</p> <v>cell worker</v></lo>
+					</property>
+			</property>
+
+			<property>
+				<k>column</k> <v>comments</v>:
+					<property><p>type</p> = <text/></property>
+			</property>
+		</property>
+
+		<property><p>shows column titles</p>
+			<note>a flag property of table, set to true by referencing here</note>
+		</property>
+
+		<property><v>footer row</v> <called/> <v>total</v>
+			<note>access the footer row as "the total" or "timesheet.total"</note>
+
+			<property><v>cell hours</v>: <note>getter for cell hours?  needs to auto update...</note>
+				<lo><v>the sum</v> <of/> <v><my/> column hours</v></lo>
+
+			</property>
+
+			<property><v>cell charge</v>:
+				<lo><v>the sum</v> <of/> <v><my/> column charge</lo>
+			</property>
+		</property>
+
+		<event><e>row created</e> <with/> <v>the row</v>:
+			<lo><set/> <v>cell user</v> <of/> <v>the row<v/> <to/> <v>the current user</v></lo>
+		</event>
+
+		<event><e>rows changed</>:	<note>"rows changed" is an event of tables</note>
+			<code>
+				<lo><put/> <e>the number of days <between/> <v><my/> start date</v> <and/> <v><my/> end date</v> <into/> <v>day count</v></lo>
+				<lo><set/> <v>cell date</v> <of/> <v><my/> total</v> <to/>:<lo>
+				<lo>	<l>"(<v>day count</v> day)"</l> <if/> <v>row count</v> <is/> <l>1</l></lo>
+				<lo><otherwise/> <l>"(<v>day count</v> days)"</l>
+			</code>
+		</event>
+	</property>
+
+	<property><p>total hours</p>: 	<note>getter, watches the cell</note>
+		<lo><v>cell hours</v> <of/> <v>the total</v> <of/> <v>the timesheet</v></lo>
+	</property>
+
+	<property><p>total charge</p>:
+		<lo><v>cell charge</v> <of/> <v>the total</v> <of/> <v>the timesheet</v></lo>
+	</property>
+
+	<property><p>submission date</p>, <a/> <date/>
+	</property>
+
+	<property><p>invoice message</p>, <an/> email
+	</property>
+
+
+	<event><e>shown</e>:
+		<note>when = event handler, fired when invoice is shown</note>
+		<code>
+			<lo><if/> <v>invoice is active</v>:</lo>
+			<lo>	<f>update timesheet to today</f></lo>
+		</code>
+	</event>
+
+	to update timesheet to today:
+		<note>to == function definition</note>
+
+		while end date is less than <s>today</s>:
+			add day to timesheet
+
+	to add day to timesheet which returns <a/> row:
+		add 1 day to the end date
+		<note>"add # day" is method of dates, updates value in place</note>
+
+		the row = add row to the timesheet
+		<note>defaults to creating at the end, returns a row</note>
+
+		set cell date of the row to the end-date
+		return the row
+
+	to submit the invoice:
+		if invoice has been submitted:
+			ask "This invoice has already been submitted.  Do you want to re-submit it?"
+			if the answer is "No" then exit
+		<note>exit without returning a value</note>
+
+
+		if invoice is invalid:
+			ask "This invoice is currently marked as invalid, are you sure you want to submit it?"
+			if the answer is "No" then exit
+			set the state to "active"
+
+		prepare invoice message
+		exit if the result is empty
+		put the result into the invoice message
+
+		send the invoice message
+			on error:
+				warn "There was an error sending the email message for the invoice.
+				  Do you want to try again later?":
+				with buttons "Try in an Hour" or "Try Later..." or "Forget it"
+				with details the error
+
+			if the result is "Forget It":
+				exit
+
+			if the result is "Try in an Hour":
+				submit invoice at one hour from now
+				exit
+
+			if the result is "Try Later":
+				ask when to submit invoice
+				exit
+
+		set the submission date to now
+		set the state to "submitted"
+
+	to ask when to submit invoice:
+		the time = pick time:
+			with title "When would you like to submit the invoice?"
+			with start time now
+		exit if the time is empty
+		submit invoice at the time
+
+
+	to submit invoice at with the time, <a/> time:
+		add to global schedule at the time:
+		<note>server-based schedule, fires if app is open or not</note>
+
+			submit the invoice
+		show notice "Invoice will be submitted at <the time>."
+
+	to prepare invoice message which returns <an/> email:
+		if the recipients is empty:
+			ask "There are no recipients for this invoice!  Do you want to pick one?":
+				with title "Submitting invoice"
+				with buttons "Yes" and "Cancel"
+			if the answer is "Cancel" then exit
+		<note>returns undefined</note>
+
+
+			pick users from my address book:
+		<note>shows modal dialog, value goes into "the result"</note>
+
+				with title "Choose invoice recipients"
+				put the result into recipients
+		<note>at end, invoice.recipients will be users or empty</note>
+
+
+			if recipients is still empty then exit
+
+		set the message to markdown text:
+										<p>the address of the owner</p>
+										<today/>
+			Dear <p>the first name</p> <of/> <e>the first item</e> <of/> <p>the recipients</p>,
+			Please find *<the invoice name>* attached for work done between
+			<p>the start date</p> and <p>the end date</p>.
+
+			A detailed breakdown of hours and activities follows:
+
+			<p>the timesheet <p>as html</p></p>
+
+			*The total now due is $<the total charge>*.
+			Thank you for the work!
+
+			Sincerely,
+				<the owner's name>
+				<the owner’s signature-image>
+
+		create email:
+			with to: 			the recipients
+			with from:		the owner’s work email address
+			with copy:		the owner’s work email address
+			with subject:		the invoice name
+			with message:	the message
+
+		return the email
+

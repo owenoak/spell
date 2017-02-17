@@ -1,0 +1,276 @@
+## Type semantics
+- assume literate style
+
+- group functionality by (sub)-domain, not property type, etc
+	- you can `define ClassName` again to add more stuff to the class (think swift/ObjC)
+		- even do in different files to, eg, customize a base class for some install
+
+- supply types for all properties/etc
+	 - if default is specified, assume type of default
+
+- 'properties' as a flyweight with automatic getters/setters on main object? (ala Obj-C)
+
+- `action` indicates something that changes data
+	- actions also generate events, so if
+		`action move Card to Pile`
+	  returns `yes` then we'll generate an action `move card to pile" with "card" and "pile"
+
+- methods can dispatch based on parameter type
+	- `to
+
+- `can X` automatically creates:
+	`can not X`
+- `is a X` automatically creates `is not a X`
+-
+
+
+### Reflection
+```
+> define type Product
+> Product.name
+< "product"
+
+> Product.Name
+< "Product"
+
+> Product.names
+< "products"
+
+> Product.Names
+< "Products"
+
+> it = new product
+> it.Type
+< Product
+
+> it.Types
+< [Product, Thing]
+
+```
+
+
+### Property setup
+```
+define type Something
+
+// create instance properties
+	property <propertyName> as (a|an) <Type> with default <value of Type>
+		== creates an observable property w/ getter/setter combo
+		== value is actually stored in `this._properties[propertyName]`
+
+	property <propertyName>
+		==> property <propertyName> as any type with default value undefined
+
+	property <propertyName> as <value>
+		==> property <propertyName> as <value.Type> with default value
+
+	property <propertyName> as (a|an) <Type> which defaults to <expression>
+		== you can manually set property and it overrides expression
+
+// instance constants
+	constant <propertyName> = <value>
+		== set as non-writable property directly on prototype
+		== can override in subclass
+		== MUST provide a value
+		== NOT observable
+		== within the class/instance where they're defined, you can use just the constant name without "my"
+
+
+// class properties
+	Something.<propertyName> = <value>
+		== class property
+		== class properties are inherited by other classes
+		== MUST provide a value (infer undefined?)
+
+// geter/setter
+	property <propertyName> as <type>
+	get <propertyName> <expression>
+		== within getter, `my property` refers to `this._propeties[property]`
+
+	set <propertyName> <expression>
+		== define property first to specify type
+		== within getter, `set my property to ...` sets `this._propeties[property]`
+
+// setter advice
+	before changing <propertyName> <expression>
+		== return Type.STOP to stop further processing?
+
+	after changing <propertyName> <expression>
+		== return Type.STOP to stop further processing?
+```
+
+
+### Method setup
+- We define class-level methods and then alias them to instances
+```
+define type <Type>
+	to <methodName> <expression>
+		== static function which is auto-hooked up to instances
+		== auto-infer return type???  specify it???
+		== e.g.
+			define type Collection
+				to empty
+					for each item in my items
+						remove item from me
+					return me
+
+		==> JS:
+			// implemented global function
+			Collection.empty = function(colection) {
+				if (!(collection instanceof Collection)) {
+					warn("Cannot empty something that's not a collection");
+				}
+				else {
+					collection.items.forEach(item => collection.remove(item));
+				}
+				return collection;
+			}
+			// alias to the instance
+			empty() {
+				return Collection.empty(this);
+			}
+
+		== call as
+			> empty someCollection
+			> dupe = empty copy of someCollection
+
+	to <methodName> (a | an) <type> with <var1 as type> and <var2 as type> <expression>
+
+
+```
+
+
+### Validation
+- you can sprinkle these through the definitions and they accumulate.
+```
+define type Something
+	to be valid something
+		must have <propertyExpression>
+		must have <propertyExpression> as (a|an|) <Type>
+		must have <propertyExpression> (which|where|) <expression>
+	== e.g.
+		to be valid something
+			must have a key
+			must have a brand-id as Text
+			must have a price greater than 0
+
+		Something.validate = function (something) {
+			// null somethings are always valid????
+			if (something == null) return undefined;
+
+			var errors = {};
+			if (something.key === undefined) {
+				errors.key = "Somethings must have a key.";
+			}
+			if (Typeof(something.brand_id) !== Text) {
+				errors["brand-id"] = "Somethings must have a brand-id of type Text.";
+			}
+			if (something.price <= 0) {
+				errors.price = "Somethings must have a price greater than 0.";
+			}
+			if (Object.isEmpty(errors)) return undefined;
+			return errors;
+		}
+
+		validate() {
+			return Something.validate(this);
+		}
+
+		function isValid(something) {
+			var errors = validate(something);
+			return errors === undefined;
+		}
+
+```
+
+
+### Creating / duplication
+```
+new <Type>
+	== you can use `new list` or `new List`
+
+create <Type> with <properties>
+	== only single argument
+	== assume properties bag which will be extended onto object
+	==
+
+copy (of) <thing>
+	== fires event "before copying with properties"
+		- modify properties and return
+		- return Type.CANCEL to cancel duplication, yielding `undefined`
+
+	== creates a copy of thing as
+		copy = new Thing(properties)
+
+	== fires event "after copying with properties"
+		- return Type.CANCEL to further after processing
+```
+
+
+
+### Type Conversion
+- syntax:  `to convert <type1> to <type2>`
+	- inside method definition, use `type1` as variable name
+```
+	to convert text to percentage
+		if text includes "%" return convert text to number
+```
+- when assigning to item of known type, we'll attempt to coerce automatically
+	-
+
+
+### String conversion
+- basic definition syntax:
+	`to convert <type1> to text`
+
+- custom formatters:
+	- `as pretty number`
+	- `as short date`
+
+- some types (eg: date) will have "default formatter"
+
+
+### Basic types
+- Number
+- Integer
+- Text
+- Word
+-
+
+
+### Compound types
+
+
+### Smart Types
+- property <plural> is a list of <type>
+- property <plural> is a list of references to <typed source>
+
+
+
+### collections
+- property tags is a list of texts
+	- normal array
+	- warns and fails if you try to assign something other than a text
+		- or coerce????
+
+- property products is a list of Products
+	- array of Product objects managed through direct assignment
+
+- property products is an indexed list of Products
+	- only works because Product is Indexable
+	- adds capability to:
+		- `my product "key"`
+		- `keys of my products`
+
+- property products is a list of references to Products
+	- only works because Product is Indexable
+	- stores list of product keys
+	- looks up keys in Product registry
+	- `products` is inherently indexed as above
+	- you can assign keys and it will derefence for you
+
+- unique list of <type>
+	- if you attempt to add again, removes previous instances first
+
+- non-empty list of <type>
+	- silently fails if you attempt to add an empty value

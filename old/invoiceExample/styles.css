@@ -1,0 +1,158 @@
+body{font-family:Gotham;font-weight:300}
+h1{margin-bottom:.25em;border-bottom:1px solid #999}
+h2{margin-bottom:.25em;border-bottom:1px solid #ccc}
+.h3,h3{font-weight:700;font-size:1.2em;margin:1em 0 .25em;border-bottom:1px solid #eee}
+notes{display:block;font-size:.8em;margin:.4em 0 .4em 1em;-moz-padding-start:1em;-webkit-padding-start:1em}
+note{display:inline-block;font-size:.6em;float:right}
+todo{display:block;font-size:.8em;-moz-padding-start:1em;-webkit-padding-start:1em;margin:1em 0 1em 1em;color:green}
+todo:before{display:block;content:"TODO:";font-weight:700;margin-left:-2em}
+section{display:block;margin-left:2em}
+section:before{font-weight:500;display:block;content:attr(title);margin:1em 0 .25em;border-bottom:1px solid #eee;opacity:.5}
+.k,k,keyword{font-weight:500;color:green}
+.p,p{display:inline;margin:0;font-style:italic;white-space:nowrap}
+property{clear:both;display:block;margin-left:1em;padding-left:1em;text-indent:-1em}
+property:before{content:"with ";font-weight:500;color:green}
+translate{clear:both;display:block;margin-left:1em;padding-left:1em;text-indent:-1em}
+translate:before{content:"translate ";font-weight:500;color:green}
+.v,v{font-style:italic;white-space:nowrap}
+.s,s{color:#00f;text-decoration:none;font-style:italic}
+singleton{clear:both;display:block;margin-left:1em;padding-left:1em;text-indent:-1em}
+singleton:before{content:"singleton ";font-weight:500;color:green}
+.t,t{color:#00f}
+c,comment{display:block;font-style:italic;color:#999;padding-left:.3em}
+c:before,comment:before{content:"// "}
+ic,inline-comment{font-style:italic;color:#999}
+.f,f{display:inline;border-bottom:1px dotted rgba(0,0,0,.5)}
+.f e,.f f,.f x,f e,f f,f x{padding-bottom:1px}
+method{clear:both;display:block;margin-left:1em;padding-left:1em;text-indent:-1em}
+method:before{content:"to ";font-weight:500;color:green}
+method>f{display:inline}
+.e,e{display:inline;border-bottom:1px dotted rgba(0,0,0,.5)}
+.e e,.e f,.e x,e e,e f,e x{padding-bottom:1px}
+event{clear:both;display:block;margin-left:1em;padding-left:1em;text-indent:-1em}
+event:before{content:"when ";font-weight:500;color:green}
+.x,x{display:inline;border-bottom:1px dotted rgba(0,0,0,.5)}
+.x e,.x f,.x x,x e,x f,x x{padding-bottom:1px}
+expression{clear:both;display:block;margin-left:1em;padding-left:1em;text-indent:-1em}
+expression:before{content:"expression ";font-weight:500;color:green}
+.code,code{display:block;margin:.25em 0 1em 1em;padding:.3em;text-indent:0;background-color:#eee;font:inherit}
+.code.js,code.js{background-color:#fbe6ea}
+.logic,lo{display:block;margin:.25em 0 1em 1em;padding:.3em;text-indent:0;background-color:#eee;font:inherit}
+.logic.js,lo.js{background-color:#fbe6ea}
+.javascript,js{display:block;margin:.25em 0 1em 1em;padding:.3em;text-indent:0;font:inherit;white-space:pre;background-color:#fbe6ea}
+.javascript.js,js.js{background-color:#fbe6ea}
+code js,code lo{padding-top:0;padding-bottom:0;margin-left:0;margin-top:0;margin-bottom:0}
+.l,l{color:green}
+literal{color:green;display:block;margin:.25em 0 1em 1em;padding:.3em;text-indent:0;background-color:rgba(0,0,0,.05)}
+a{font-weight:500;color:green}
+a:before{content:"a"}
+an{font-weight:500;color:green}
+an:before{content:"an"}
+and{font-weight:500;color:green}
+and:before{content:"and"}
+as{font-weight:500;color:green}
+as:before{content:"as"}
+between{font-weight:500;color:green}
+between:before{content:"between"}
+by{font-weight:500;color:green}
+by:before{content:"by"}
+called{font-weight:500;color:green}
+called:before{content:"called"}
+create{font-weight:500;color:green}
+create:before{content:"create"}
+default{font-weight:500;color:green}
+default:before{content:"default"}
+defaults{font-weight:500;color:green}
+defaults:before{content:"defaults"}
+empty{font-weight:500;color:green}
+empty:before{content:"empty"}
+false{font-weight:500;color:green}
+false:before{content:"false"}
+from{font-weight:500;color:green}
+from:before{content:"from"}
+if{font-weight:500;color:green}
+if:before{content:"if"}
+internal{font-weight:500;color:green}
+internal:before{content:"internal"}
+into{font-weight:500;color:green}
+into:before{content:"into"}
+is{font-weight:500;color:green}
+is:before{content:"is"}
+item{font-weight:500;color:green}
+item:before{content:"item"}
+my{font-weight:500;color:green}
+my:before{content:"my"}
+new{font-weight:500;color:green}
+new:before{content:"new"}
+of{font-weight:500;color:green}
+of:before{content:"of"}
+optional{font-weight:500;color:green}
+optional:before{content:"optional"}
+or{font-weight:500;color:green}
+or:before{content:"or"}
+otherwise{font-weight:500;color:green}
+otherwise:before{content:"otherwise"}
+put{font-weight:500;color:green}
+put:before{content:"put"}
+return{font-weight:500;color:green}
+return:before{content:"return"}
+returns{font-weight:500;color:green}
+returns:before{content:"returns"}
+set{font-weight:500;color:green}
+set:before{content:"set"}
+this{font-weight:500;color:green}
+this:before{content:"this"}
+the{font-weight:500;color:green}
+the:before{content:"the"}
+to{font-weight:500;color:green}
+to:before{content:"to"}
+true{font-weight:500;color:green}
+true:before{content:"true"}
+type{font-weight:500;color:green}
+type:before{content:"type"}
+var{font-weight:500;color:green}
+var:before{content:"var "}
+which{font-weight:500;color:green}
+which:before{content:"which"}
+with{font-weight:500;color:green}
+with:before{content:"with "}
+column{color:#00f}
+column:before{content:"column"}
+currency{color:#00f}
+currency:before{content:"currency"}
+date{color:#00f}
+date:before{content:"date"}
+document{color:#00f}
+document:before{content:"document"}
+integer{color:#00f}
+integer:before{content:"integer"}
+invoice{color:#00f}
+invoice:before{content:"invoice"}
+flag{color:#00f}
+flag:before{content:"flag"}
+JSDate{color:#00f}
+JSDate:before{content:"JSDate"}
+list{color:#00f}
+list:before{content:"list"}
+number{color:#00f}
+number:before{content:"number"}
+object{color:#00f}
+object:before{content:"object"}
+row{color:#00f}
+row:before{content:"row"}
+sequence{color:#00f}
+sequence:before{content:"sequence"}
+string{color:#00f}
+string:before{content:"string"}
+table{color:#00f;display:inline-block}
+table:before{content:"table"}
+text{color:#00f}
+text:before{content:"text"}
+user{color:#00f}
+user:before{content:"user"}
+users{color:#00f}
+users:before{content:"users"}
+logic{color:#00f;text-decoration:none;font-style:italic}
+logic:before{content:"logic"}
+today{color:#00f;text-decoration:none;font-style:italic}
+today:before{content:"today"}

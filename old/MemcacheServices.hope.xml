@@ -1,0 +1,148 @@
+<class name='MemcacheServiceList' isa='model'>
+	<operation type='load'>
+		<url>/api/MemcacheServer/latest/config</url>
+		<method>GET</method>
+	</operation>
+</class>
+
+<class name='MemcacheService' isa='model' tagName='MemcacheService' key='id'>
+	<!-- name may be null, so we have an 'id' expression -->
+	<property name='name' type='string' validators='legalId'/>
+	<expression name='id'>
+		return my name or the ip of the first item of my instances
+	</expression>
+
+	<property name='pkg' type='string' tagName='package'/>
+	<expression name='is [a] gear6 package' type='flag'>
+		return my pkg contains "gear6"
+	</expression>
+
+	<property name='status' type='string' values='enabled|disabled'/>
+	<expression name='enabled' type='flag' dependsOn='status'>
+		return (my status) is "enabled"
+	</expression>
+
+	<property name='tcpPort' type='number' min='1' max='65525' default='11211'/>
+	<property name='udpPort' type='number' min='1' max='65525' default='11211' />
+
+	<property name='startDate' type='date'/>
+
+	<!-- list of instances -->
+	<property name='instances' type='list' of='gear6:memcache instance'/>
+
+	<!-- expression for summing instance memory values -->
+	<expression name='memory' type='number' dependsOn='instances.[]'/>
+	<expression name='used' type='number' dependsOn='instances.[]'/>
+	<expression name='free' type='number' dependsOn='instances.[]'/>
+
+	<expression name='isAPool' type='flag' dependsOn='instances.[]'/>
+
+
+	<operation name='rename' with='newName'>
+		<url>/api/ServiceController/latest/rename</url>
+		<method>POST</method>
+		<data><!--
+			<oldname>{{service.name}}</oldname>
+			<newname>{{newName}}</newname>
+		--><data>
+		<messageKey>api.renameService</messageKey>
+		<onsuccess>
+			set (my name to newName)
+			tell statsproxy to reload
+		</onsuccess>
+	</operation>
+</class>
+
+
+<class name='MemcacheInstance' isa='model' tagName='MemcacheInstance'>
+	<property name='service' type='reference to MemcacheService'/><!-- HOW TO HOOK THIS UP? -->
+	<property name='identifier' type='string'/>
+	<property name='imageId' type='string' />
+	<property name='architecture' type='string' tagName='arch' />
+	<property name='vendorType' type='string' />
+	<property name='ip' type='ip' />	<!-- ip type -->
+	<property name='port' type='number'/>
+
+	<property name='status' type='string' values='running,pending,shutting-down,terminated'/>
+	<property name='memcacheState' type='string' values='active,leaving,joining,unreachable' />
+	<property name='reporterStatus' type='string' values='off,view,modify' />
+	<property name='reporting' type='flag' tagName='reporterEnabled' />
+	<expression name='can change reporting' dependsOn='reporterStatus'>
+		my reporter status is "modify"
+	</expression>
+	<expression name='reporting [is] enabled' dependsOn='reporterStatus'>
+		my reporter status is "view" or my reporter status is "modify"
+	</expression>
+	<expression name='reporting [is] not enabled' dependsOn='reporterStatus'>
+		if my reporting is enabled is true
+			false
+		else
+			true
+	</expression>
+
+	<property name='memory' type='number' />
+	<property name='used' type='number' />
+	<property name='free' type='number' />
+
+	<property name='rehashState' type='string' values='enabled,disabled'/>
+	<expression name='rehashing' dependsOn='rehashState'>my rehash state is "enabled"</expression>
+	<property name='rehashPercent' type='percent' />
+
+	<!-- toggle reporting on and off -->
+	<command name='toggle reporting'>
+		if my canChangeReporting is false then return
+		if my reporting is true then 	execute my stop reporting
+		else							execute my start reporting
+	</command>
+	<operation name='stop reporting'>
+		<url>/api/MemcacheServer/latest/config/instance/#{ip}/stop-reporting</url>
+		<method>POST</method>
+		<messageKey>api.stopReporting</messageKey>
+		<onsuccess>
+			set my reporting to false
+		</onsuccess>
+		<oncomplete>
+			tell statsproxy to reload
+		</oncomplete>
+	</operation>
+	<operation name='start reporting'>
+		<url>/api/MemcacheServer/latest/config/instance/#{ip}/start-reporting</url>
+		<method>POST</method>
+		<messageKey>api.startReporting</messageKey>
+		<onsuccess>
+			set my reporting to true
+		</onsuccess>
+		<oncomplete>
+			tell statsproxy to reload
+		</oncomplete>
+	</operation>
+
+	<!-- stop the instance.  Note that we get the 'stop command' for free. -->
+	<operation name='stop'>
+		<url>/api/ServiceController/latest/stop/#{ip}</url>
+		<messageKey>api.stopInstance</messageKey>
+		<oncomplete>
+			tell statsproxy to reload
+		</oncomplete>
+	</operation>
+
+
+	<!-- detach the instance -->
+	<operation name='detach'>
+		<url>/api/ServiceController/latest/detach</url>
+		<data><!--
+			<service>{{service.name}}</service>
+			<ips>{{ip}}</ips>
+		--><data>
+		<messageKey>api.detachInstance</messageKey>
+		<oncomplete>
+			tell statsproxy to reload
+		</oncomplete>
+	</operation>
+</class>
+
+
+<class name='BrutusClient' isa='model' tagName='BrutusClient' key='name'>
+	<property name='name' validators='legalId'/>
+	<property name='ips' type='list' of='ipAndPort' />
+</class>
