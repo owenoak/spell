@@ -13,17 +13,17 @@ define type Card
 
 	### Card orientation as "up" or "down"
 	direction as one of ("up", "down") with default "down"
-	expression Card is face up: direction of card is "up"
-	expression Card is face down: direction of card is "down"
+	is face up: my direction is "up"
+	is face down: my direction is "down"
 
 	# global actions to switch card orientation
-	to turn Card face up
+	to turn (Card) face up
 		set direction of card to "up"
 
-	to turn Card face down
+	to turn (Card) face down
 		set direction of card to "down"
 
-	to turn Card over
+	to turn (Card) over
 		if direction of card is "up" then turn card face down
 		else turn card face up
 

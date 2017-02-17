@@ -1,19 +1,4 @@
-a card is a flat rectangular object
-the card is face up when its front is up
-the card is face down when its front is down
-to turn a card face up, rotate so its front face is up
-to turn a card face down, rotate so its front face is down
-to turn a card over
-	if its is face up, turn it face down
-	otherwise turn it face up
-
-a pile is a stack of cards
-a deck is a pile
-
-
-
-
-MOVIE SCENARIO:  make a game
+# MOVIE SCENARIO:  make a game
 
 - "make a new game..."
 	- creates a green blank field in slightly isometric perspective

@@ -1,0 +1,22 @@
+# GENERAL RULES
+
+
+- {thing} is {expression}
+=> {things} are {expression}
+	- card is a spade
+	=> cards are spades
+
+
+
+
+- every card in pile
+- all cards in pile
+
+
+
+
+- {plural identifier} in {collection}
+	eg	`cards in the pile`
+
+- each {identifier} in {collection}
+	eg	`cards in the pile`
