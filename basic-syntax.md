@@ -1,4 +1,5 @@
-# conditional structures
+conditional structures
+---------------------------
 
 	if {condition} (: | then INDENT) {statements}
 	else if {condition}(: | then INDENT) {statements}
@@ -12,7 +13,7 @@
 
 
 
-# property expressions
+property expressions
 ---------------------------
 	{propertyExpression} ->
 		{identifier}
@@ -30,7 +31,7 @@
 
 
 
-# scoping
+scoping
 --------------
 	global {identifier}
 		eg	`global app`			# pulls app into scope
@@ -43,7 +44,7 @@
 
 
 
-# Assignment
+Assignment
 ------------------
 	get {propertyExpression}	# value inserted into `it`
 		eg	`get the time`
@@ -58,7 +59,7 @@
 
 
 
-# Type checking
+Type checking
 ----------------
 	<Type>
 		eg	`parse Text`
@@ -70,7 +71,7 @@
 
 
 
-# {is expression}
+{is expression}
 ---------------------
 	{thing} is (!not) {expression}
 	{thing} is (!not) defined
@@ -91,7 +92,7 @@
 	{thing} (does not have | doesn't have) (a | an) (property) {identifier}
 
 
-# {are expressions}
+{are expressions}
 ---------------------
 	{things} are (!not) {expression}
 	{things} are (!not) defined
@@ -107,11 +108,10 @@
 
 
 
-# {collection expressions}
+{collection expressions}
 --------------------------
 
 ## all must be true:
----------------------
 	every {plural expression} {is expression}
 		eg	`every card in the pile is a spade`
 
@@ -124,7 +124,6 @@
 
 
 ## any is true
----------------
 	any {things} {are expression}
 		eg	`any players are online`
 
@@ -139,9 +138,9 @@
 
 
 
-# {ordinal}
-## note that ordinals are 1-based!!!
+{ordinal}
 -------------------------------------
+	- note that ordinals are 1-based!!!
 	{integer}
 		eg	`1`, `2, ...
 		eg	`one`, `two`, `three`...
@@ -155,15 +154,15 @@
 
 
 
-# {collection size}
-## note: collection size is also 1-based
+{collection size}
 --------------------
+	- note collection size is also 1-based
 	size of {collection}
 	length of {collection}
 	number of {items} of {collection}
 
 
-# {singular item expression }
+{singular item expression }
 ------------------------------
 	{item} {number expression} of {collection}
 		eg	`item 1 of the list`
@@ -179,7 +178,7 @@
 
 
 
-# {range expression}
+{range expression}
 --------------------
 	(things) {number} (to | through) {number} {things} of {collection}
 		eg	`items 1 to 4 of the pile`
@@ -207,7 +206,7 @@
 
 
 
-# {filter expression}
+{filter expression}
 -----------------------
 	{things} (in|of) {collection} (with|which|where) {expression}
 	*TODO*
@@ -221,7 +220,7 @@
 
 
 
-# {grouping expresion}
+{grouping expresion}
 -------------------------
 	divide {collection} into groups of {number}
 		eg	`divide pile into groups of 3`
@@ -233,7 +232,7 @@
 		eg	`group pile by items with color = black`
 
 
-# {set logic expresions}
+{set logic expresions}
 -------------------------
 	union of {things} in {collection} and {collection}
 	common {things} (in | of) {collection} and {collection}
