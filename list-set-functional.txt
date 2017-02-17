@@ -1,23 +1,5 @@
 Array / Set / Index semantics
 
-
-### Collection Datatypes
-
-- `list` as the generic term for an array
-	- iteration is in array order
-	- lists should be 1-based ???
-
-- `set` as the generic term for an unordered set
-	- iteration is random
-
-- `index` as generic term for a map of `{ key => value }` or `{ key => [values] }`
-	- iteration is in key insert order by default
-
-
-
-
-
-
 ### Object opterations
 
 = merge <object1> with <object1>
@@ -32,15 +14,7 @@ Array / Set / Index semantics
 
 
 
-### Collection opterations
-
-- items <#> through <#> of <collection>
-- items of <collection> starting with <#>
-- <ordinal> through <ordinal> items of <collection>
-- every <ordinal> item of <collection>
-
-- items of <collection> <whereExpression>
-
+### iterators
 - for each in <collection> do...end for
 - for each <item> in <collection> do...end for
 - for each <item>, <index> in <collection> do...end for
@@ -57,14 +31,25 @@ Array / Set / Index semantics
 	= get product.brand.id for each product in products
 
 
-- group <collection> into chunks of 3
+
+
+### Collection opterations
+
+√ items <#> through <#> of <collection>
+√ items of <collection> starting with <#>
+√ <ordinal> through <ordinal> items of <collection>
+√ every <ordinal> item of <collection>
+
+√ items of <collection> <whereExpression>
+
+√ group <collection> into chunks of 3
 	=> array of same type as iterables of size 3 or less
 
-- group <collection> by <expression>
+√ group <collection> by <expression>
 	= group products by property brandId
 	=> index of `{ foo => [items] }`
 
-- (add | concatenate) <collection> and <collection>
+√ (add | concatenate) <collection> and <collection>
 
 - remove (<quantity>) (<items>) from <collection> <whereExpression>
 	= remove first five items from products
@@ -77,11 +62,11 @@ Array / Set / Index semantics
 	= remove duplicates from <collection>
 	= remove duplicate items from <collection>
 
-- move <item> to <position> of <collection>
+√ move <item> to <position> of <collection>
 	- e.g. move "Ace" to the end of list
 
-= (the) differences (in | between) <collection> and <collection>
-= common items (in | between) <collection> and <collection>
+√ (the) differences (in | between) <collection> and <collection>
+√ common items (in | between) <collection> and <collection>
 
 = fill (quantity) (<items>) of <collection> with <expression>
 

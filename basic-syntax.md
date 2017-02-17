@@ -26,7 +26,7 @@ property expressions
 			eg	`the direction of the card`
 			eg	`the direction of my card`
 
-		(the) {ordinal} (item) of {propertyExpression}
+		(the) {ordinal} {item} of {propertyExpression}
 			eg	`the first card in the deck`
 
 
@@ -111,7 +111,7 @@ Type checking
 {collection expressions}
 --------------------------
 
-## all must be true:
+### all must be true:
 	every {plural expression} {is expression}
 		eg	`every card in the pile is a spade`
 
@@ -123,7 +123,7 @@ Type checking
 
 
 
-## any is true
+### any is true
 	any {things} {are expression}
 		eg	`any players are online`
 
@@ -168,11 +168,11 @@ Type checking
 		eg	`item 1 of the list`
 		eg	`card 2 of the pile`
 
-	{first|second|...penultimate|last} {item} (of|in) {collection}
+	{ordinal} {item} (of | in) {collection}
 		eg	`last card of the pile`
 		eg	`second friend in my friends`
 
-	random {item} (of|in) {collection}
+	(a) random {item} (of | in) {collection}
 		eg	`random card in the pile`
 
 
@@ -180,41 +180,48 @@ Type checking
 
 {range expression}
 --------------------
-	(things) {number} (to | through) {number} {things} of {collection}
-		eg	`items 1 to 4 of the pile`
-		eg	`items one through four of the pile`
+	all {things} (of | in) {collection}
+		eg	`all items in the pile`
 
-	{ordinal} (to | through) {ordinal} {things} of {collection}
-		eg	`first to fourth items of the pile"
+	{things} {number} (to | through) {number} (of | in) {collection}
+		eg	`players 1 to 4 of the high scorers`
+		eg	`cards one through four of the pile`
 
-	(the) (first | last) {integer} {things} of {collection}
+	(the) {ordinal} (to | through) {ordinal} {things} (of | in) {collection}
+		eg	`the first to fourth cards of the pile"
+
+	(the) (first | last) {integer} {things} (of | in) {collection}
 		eg	`the first three cards of the pile`
 		eg	`last five cards of the pile`
-
-	(the) (top | bottom) (number) {collection}
-		eg	`the top 5 players`
-		eg	`the bottom 5 cards`
 
 	(the) (top | bottom) (number) {things} (of | in) {collection}
 		eg	`the bottom 5 cards in the pile`
 
-	{things} of {collection} starting with {identifier}
-		eg	`cards of the pile starting with the card`
+	(the) (top | bottom) (number) {collection}
+		eg	`the top 5 players`
 
-	{number} random {things} (in | from) {collection}		## implicitly does not re-choose same item
+	{things} of {collection} starting with {identifier}
+		eg	`cards of the deck starting with the ace of spades`
+
+	every {ordinal} {thing} (of | in) {collection}
+		eg	`every third item in the pile`
+
+	{number} random {things} (in | from) {collection}
 		eg	`five random cards in the pile`
+		- implicitly does not re-choose same item
+
 
 
 
 {filter expression}
 -----------------------
-	{things} (in|of) {collection} (with|which|where) {expression}
+	{things} (in | of) {collection} (with | which | where) {expression}
 	*TODO*
-		eg	`items of pile with rank greater than spade`
-		eg	`items of pile which are spades`
-		eg	`items of pile where color is black`
+		eg	`items of list with last name = "williams"`
+		eg	`cards of pile which are spades`
+		eg	`cards in pile where color is black`
 
-	{range expression} (where|which) {are expression}
+	{range expression} (where | which) {are expression}
 		eg	`first two items of pile which are spades`
 
 
@@ -228,16 +235,73 @@ Type checking
 	group {collection} by {property}
 		eg	`group pile by suit`
 
-	group {collection} by {items expression}
-		eg	`group pile by items with color = black`
+	group {collection} by {items} (with | where) {item expression}
+		eg	`group deck by cards with color = black`
+
+	group {collection} by {items} (with | where) {item expression} and {item expression}
+		eg	`group deck by cards with color = black` and card is a face card`
 
 
-{set logic expresions}
--------------------------
-	union of {things} in {collection} and {collection}
+{set expresions}
+-----------------
+- all methods return type of first collection
+	union (of | in | between) {collection} and {collection}
+	{collection} + {collection}
+	{collection} and {collection}
+	(all) {things} in {collection} and {collection}
+
+	differences (of | in | between) {collection} and {collection}
+	{collection} - {collection}
+	{things} in {collection} (but | and) not in {collection}
+
+	intersection (of | in | between) {collection} and {collection}
 	common {things} (in | of) {collection} and {collection}
-	{things} (in | of) {collection} which are (also) in {collection}
-	{things} (in | of) {collection} which are not in {collection}
+	{things} (in | of) {collection} which are (!not) (also) in {collection}
 
-	differences (in | between) {things} (in | of) {collection} and {collection}
 
+
+{position}
+-----------
+{number}
+{item} {number}
+{ordinal} {item}
+
+{collection manipulation}
+--------------------------
+
+## addition
+	add {thing | things} to {collection}
+	add {thing | things} to {collection} (at | after) {position}
+	add {thing | things} to {collection} (after | before) {item}
+
+	append {thing | things} to {collection}
+	prepend {thing | things} to {collection}
+
+	move {item expression} to (start | end | middle) of {list}
+
+## {sort modifier}
+	ascending
+	descending
+	in reverse order
+	case sensitive
+	case insensitive
+	numerically
+	non-numerically
+
+## reordering
+	sort {collection} {sort modifier}
+	sort {collection} by {property} {sort modifier}
+		eg	`sort people by last name`
+	sort {collection} by {expression}
+
+
+
+
+{repeat expressions}
+---------------------
+for each {thing} in {collection} (: | INDENT) {statements}
+for every (second | {ordinal}) {thing} in {collection} (: | INDENT) {statements}
+
+
+repeat {integer} times (: | INDENT) {statements}
+repeat with {variable}

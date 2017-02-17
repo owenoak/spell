@@ -2,9 +2,26 @@
 
 
 - {thing} is {expression}
-=> {things} are {expression}
+=> {things} are {expression}s
 	- card is a spade
 	=> cards are spades
+
+
+
+### Collection Datatypes
+
+- `list` as the generic term for an array
+	- iteration is in array order
+	- lists should be 1-based ???
+
+- `set` as the generic term for an unordered set
+	- iteration is random
+
+- `index` as generic term for a map of `{ key => value }` or `{ key => [values] }`
+	- iteration is in key insert order by default
+
+
+
 
 
 
