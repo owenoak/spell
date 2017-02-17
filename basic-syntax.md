@@ -1,11 +1,9 @@
-conditional structures
+{conditional}
 ---------------------------
 
-	if {condition} (: | then INDENT) {statements}
-	else if {condition}(: | then INDENT) {statements}
-
-	(else | otherwise) {statements}
-	(else | otherwise) {statements}
+	if {condition} (: | then | INDENT) {statements}
+	else if {condition}(: | then | INDENT) {statements}
+	(else | otherwise)(: | INDENT)? {statements}
 
 	{statement} if {condition}
 	{statement} if {condition} (else | otherwise) {statement}
@@ -13,21 +11,20 @@ conditional structures
 
 
 
-property expressions
+{property expression}
 ---------------------------
-	{propertyExpression} ->
-		{identifier}
-			eg	`suit`
-			eg	`top card`
-			eg	`the deck`
+	{identifier}
+		eg	`suit`
+		eg	`top card`
+		eg	`the deck`
 
-		(the) {property} of {propertyExpression}
-			eg	`direction of card`
-			eg	`the direction of the card`
-			eg	`the direction of my card`
+	(the) {property} of {property expression}
+		eg	`direction of card`
+		eg	`the direction of the card`
+		eg	`the direction of my card`
 
-		(the) {ordinal} {item} of {propertyExpression}
-			eg	`the first card in the deck`
+	(the) {ordinal} {item} of {property expression}
+		eg	`the first card in the deck`
 
 
 
@@ -46,14 +43,14 @@ scoping
 
 Assignment
 ------------------
-	get {propertyExpression}	# value inserted into `it`
+	get {property expression}	# value inserted into `it`
 		eg	`get the time`
 
-	set {propertyExpression} to {expression}
+	set {property expression} to {expression}
 		eg	`set suit to "hearts"`
 		eg	`set the location of the pile to the mouse location`
 
-	{propertyExpression} = {expression}
+	{property expression} = {expression}
 		eg	`last location = the mouse location`
 
 
@@ -61,10 +58,10 @@ Assignment
 
 Type checking
 ----------------
-	<Type>
+	{Type}
 		eg	`parse Text`
 
-	<identifier> as <Type>
+	{identifier} as {Type}
 		eg	`suit as text`
 		eg	`pile as Cards`
 
@@ -92,7 +89,7 @@ Type checking
 	{thing} (does not have | doesn't have) (a | an) (property) {identifier}
 
 
-{are expressions}
+{are expression}
 ---------------------
 	{things} are (!not) {expression}
 	{things} are (!not) defined
@@ -108,7 +105,7 @@ Type checking
 
 
 
-{collection expressions}
+{collection expression}
 --------------------------
 
 ### all must be true:
@@ -162,7 +159,7 @@ Type checking
 	number of {items} of {collection}
 
 
-{singular item expression }
+{singular item expression}
 ------------------------------
 	{item} {number expression} of {collection}
 		eg	`item 1 of the list`
@@ -242,20 +239,21 @@ Type checking
 		eg	`group deck by cards with color = black` and card is a face card`
 
 
-{set expresions}
+{set expresion}
 -----------------
 - all methods return type of first collection
-	union (of | in | between) {collection} and {collection}
+
+	(the) union (of | in | between) {collection} and {collection}
 	{collection} + {collection}
 	{collection} and {collection}
 	(all) {things} in {collection} and {collection}
 
-	differences (of | in | between) {collection} and {collection}
+	(the) differences (of | in | between) {collection} and {collection}
 	{collection} - {collection}
 	{things} in {collection} (but | and) not in {collection}
 
-	intersection (of | in | between) {collection} and {collection}
-	common {things} (in | of) {collection} and {collection}
+	(the) intersection (of | in | between) {collection} and {collection}
+	(the) common {things} (in | of) {collection} and {collection}
 	{things} (in | of) {collection} which are (!not) (also) in {collection}
 
 
@@ -265,6 +263,7 @@ Type checking
 {number}
 {item} {number}
 {ordinal} {item}
+
 
 {collection manipulation}
 --------------------------
@@ -297,11 +296,10 @@ Type checking
 
 
 
-{repeat expressions}
+{repeat expression}
 ---------------------
 for each {thing} in {collection} (: | INDENT) {statements}
-for every (second | {ordinal}) {thing} in {collection} (: | INDENT) {statements}
-
+for every (other | {ordinal}) {thing} in {collection} (: | INDENT) {statements}
 
 repeat {integer} times (: | INDENT) {statements}
-repeat with {variable}
+repeat with {variable} = {integer} to {integer}
