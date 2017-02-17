@@ -20,3 +20,16 @@
 
 - each {identifier} in {collection}
 	eg	`cards in the pile`
+
+
+break down syntax by variable inclusion and pluralization
+	eg	`<thing> is a <type>`		=> infix operator
+	eg	`turn <thing> over`			=> action
+
+
+
+- have a definitve list (ask for it if unclear!) of singular / plural forms
+	define type mouse
+		plural mice
+		...
+

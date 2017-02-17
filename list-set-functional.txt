@@ -18,7 +18,7 @@ Array / Set / Index semantics
 
 
 
-### Collection opterations
+### Object opterations
 
 = merge <object1> with <object1>
 	<= Object.assign(object1, object2);
@@ -30,11 +30,14 @@ Array / Set / Index semantics
 - deep(ly) merge <object1> and <object2> into <otherObject>
 	<= var otherObject = _.merge({}, object2, object1);
 
+
+
+### Collection opterations
+
 - items <#> through <#> of <collection>
 - items of <collection> starting with <#>
 - <ordinal> through <ordinal> items of <collection>
 - every <ordinal> item of <collection>
-
 
 - items of <collection> <whereExpression>
 
