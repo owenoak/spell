@@ -15,9 +15,9 @@ Array / Set / Index semantics
 
 
 ### iterators
-- for each in <collection> do...end for
-- for each <item> in <collection> do...end for
-- for each <item>, <index> in <collection> do...end for
+√ for each in <collection>...
+√ for each <item> in <collection>...
+√ for each <item>, <index> in <collection>...
 	= for each in products do...
 	= for each product in products do...
 	= for each product, index in products do...
@@ -26,7 +26,7 @@ Array / Set / Index semantics
 !! implicitly puts results into array (`the results`)
 !! `for each in` vs `for each of`
 
-- get <expression> for each (<item>) in <collection>
+√ get <expression> for each (<item>) in <collection>
 	= get property key for each in products
 	= get product.brand.id for each product in products
 
@@ -51,7 +51,7 @@ Array / Set / Index semantics
 
 √ (add | concatenate) <collection> and <collection>
 
-- remove (<quantity>) (<items>) from <collection> <whereExpression>
+√ remove (<quantity>) (<items>) from <collection> <whereExpression>
 	= remove first five items from products
 	= remove from products where price is less than 10
 	= remove all from products where brand.id is "SomeBrand"
@@ -70,26 +70,26 @@ Array / Set / Index semantics
 
 = fill (quantity) (<items>) of <collection> with <expression>
 
-= find position of <item> in <collection> (starting from <ordinal>)
-= find last position of <item> in <collection>
-= find position of (ordinal) <item> in <collection> where <expression>
+√ find position of <item> in <collection> (starting from <ordinal>)
+√ find last position of <item> in <collection>
+√ find position of (ordinal) <item> in <collection> where <expression>
 = find (quantity) positions (of <items>) in <collection> where <expression>
 	= find first 5 positions in products where brand.id is "SomeBrand"
-= find next position?
+√ find next position?
 
-= (length | size | number of items) of <collection> <whereExpression>
+√ (length | size | number of items) of <collection> <whereExpression>
 
 -- join?
 
-- every <item> of <collection> <expression>
-- (any | some | at least one) <items> of <collection> <expression>
+√ every <item> of <collection> <expression>
+√ (any | some | at least one) <items> of <collection> <expression>
 
 
 
-= sort <orderedIterable> by <expression> (with default <value>)
+√ sort <orderedIterable> by <expression> (with default <value>)
 	= sort products by key with default 10
 
-= reverse <collection>
-= (randomize | shuffle) <collection>
+√ reverse <collection>
+√ (randomize | shuffle) <collection>
 
-= <collection> includes <value> (or <value>) (starting at <ordinalItem>)
+√ <collection> includes <value> (or <value>) (starting at <ordinalItem>)

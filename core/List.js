@@ -105,6 +105,17 @@ export class List {
 		return list.items[list.items.length - 1]
 	}
 
+	// Treating list as a stack
+	@expression("bottom item of <List>", { types: [ List ], returns: undefined })
+	static top_item_of(list) {
+		return List.first_item_of(list)
+	}
+
+	@expression("top item of <List>", { types: [ List ], returns: undefined })
+	static top_item_of(list) {
+		return List.last_item_of(list)
+	}
+
 	@expression("random item of <List>", { types: [ List ], returns: undefined })
 	static random_item_of(list) {
 		if (!(list instanceof List)) return undefined

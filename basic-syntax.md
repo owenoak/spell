@@ -1,6 +1,5 @@
 {conditional}
 ---------------------------
-
 	if {condition} (: | then | INDENT) {statements}
 	else if {condition}(: | then | INDENT) {statements}
 	(else | otherwise)(: | INDENT)? {statements}
@@ -9,35 +8,41 @@
 	{statement} if {condition} (else | otherwise) {statement}
 
 
-
-
 {property expression}
 ---------------------------
-	{identifier}
+	(the) {identifier}
 		eg	`suit`
-		eg	`top card`
 		eg	`the deck`
+		eg	`first name`
 
 	(the) {property} of {property expression}
 		eg	`direction of card`
 		eg	`the direction of the card`
 		eg	`the direction of my card`
 
+	(the) {possessive object} {property}
+		eg	`the card's suit`
+
 	(the) {ordinal} {item} of {property expression}
 		eg	`the first card in the deck`
 
+{properties expression}
+-------------
+	{property expression} and {property expression}
+	{property expression}
 
 
-scoping
+{identifier}
 --------------
 	global {identifier}
-		eg	`global app`			# pulls app into scope
+		eg	`global app`		# pulls app into scope
 
 	the {identifier}
-		eg	`the app`
+		eg	`the app`			# in a class, refers to property of the class
+								# outside of a class, "magically" finds identifier in dynamic scope
 
 	my {identifier}
-		eg	`my suit`			# `this.suit`, undefined if `this` doesn't exist
+		eg	`my suit`			# === `this.suit`, undefined if `this` doesn't exist
 
 
 
@@ -55,11 +60,23 @@ Assignment
 
 
 
+Defining types
+---------------
+	- ??? Would be convienient if we always took property bag, but that's bad for e.g. List
+
+	define type {typeName} (as {typeName}) {INDENT} {statements}
+
+
+Creating instances
+-------------------
+	(create | new) {type} (with {properties})
+	duplicate {instance} (with {properties})
+
 
 Type checking
 ----------------
 	{Type}
-		eg	`parse Text`
+		eg	`Text`
 
 	{identifier} as {Type}
 		eg	`suit as text`
@@ -109,35 +126,41 @@ Type checking
 --------------------------
 
 ### all must be true:
-	every {plural expression} {is expression}
+	(every | each) {item} (in | of) {collection} {is expression}
 		eg	`every card in the pile is a spade`
 
-	{things} {are expression}
-		eg	`cards in the pile are spades`
-
-	all {things} {are expression}
+	all {items} (in {are expression}
 		eg	`all cards in pile are spades`
 
+	{items} {are expression}
+		eg	`cards in the pile are spades`
 
 
 ### any is true
-	any {things} {are expression}
+	(any | some | at least one) {collection} {are expression}
 		eg	`any players are online`
 
-	any {things} (in | of) {collection} {are expression}
+	(any | some | at least one) {thing} (in | of) {collection} {is expression}
+		eg	`any card in the pile is a spades`
+
+	(any | some | at least one) {things} (in | of) {collection} {are expression}
 		eg	`any cards in the pile are spades`
+
+	(any | some | at least one) of {range expression} {are expression}
 		eg	`any of the top 4 players are online`
 
-	some {things} are {expression}
-		eg	`some cards in the pile are spades`
 
-
+### containment
+	{collection} (contains | includes) {item} (starting at {ordinal})
+	{collection} (contains | includes) {item} or {item}... (starting at {ordinal})
+	{collection} (contains | includes) {item} and {item}... (starting at {ordinal})
 
 
 
 {ordinal}
 -------------------------------------
 	- note that ordinals are 1-based!!!
+
 	{integer}
 		eg	`1`, `2, ...
 		eg	`one`, `two`, `three`...
@@ -148,12 +171,15 @@ Type checking
 	{ordinal} to last
 		eg	`first to last`, `second to last`, ...
 
+	last {item identifier}
+		eg	`last card of the pile`
 
 
 
 {collection size}
 --------------------
 	- note collection size is also 1-based
+
 	size of {collection}
 	length of {collection}
 	number of {items} of {collection}
@@ -258,19 +284,27 @@ Type checking
 
 
 
+{position expression}
+-----------
+- Position is 1-based index in a list/collection
+	{number}
+	{item} {number}
+	{ordinal} {item}
+
 {position}
 -----------
-{number}
-{item} {number}
-{ordinal} {item}
+	find position of {item} in {collection}  (starting from {ordinal})
+	find last position of {item} in {collection}
+	find all positions of {item} in {collection}
+
 
 
 {collection manipulation}
 --------------------------
 
-## addition
+### addition
 	add {thing | things} to {collection}
-	add {thing | things} to {collection} (at | after) {position}
+	add {thing | things} to {collection} (at | after | before) {position expression}
 	add {thing | things} to {collection} (after | before) {item}
 
 	append {thing | things} to {collection}
@@ -278,7 +312,24 @@ Type checking
 
 	move {item expression} to (start | end | middle) of {list}
 
-## {sort modifier}
+### removal
+	remove {items} from {collection}
+		eg	`remove cards from pile`
+
+	remove {quantity} {items} from {collection}
+		eg	`remove first five cards from pile`
+
+	remove {items} from {collection} where {condition}
+		eg	`remove cards from pile where the card is a spade`
+
+	remove {quantity} {items} from {collection} where {condition}
+		eg	`remove last 5 cards from pile where the card is a spade`
+
+	remove (empty | undefined) items from {collection}
+	remove duplicates from {collection}
+
+
+### {sort modifier}
 	ascending
 	descending
 	in reverse order
@@ -287,19 +338,59 @@ Type checking
 	numerically
 	non-numerically
 
-## reordering
+### reordering
 	sort {collection} {sort modifier}
-	sort {collection} by {property} {sort modifier}
+	sort {collection} by {property list} {sort modifier} (with default {value})
 		eg	`sort people by last name`
-	sort {collection} by {expression}
+		eg	`sort people by list name and first name descending`
 
+	sort {collection} by {expression}
+		eg	`sort cards by the rank of the card`
+
+	reverse {collection}
+	(randomize | shuffle) {collection}
+
+
+
+
+
+
+{repeat identifier}
+---------------------
+- use in repeat expression to specify variables for use statements
+- if {item} is not specified, statements will use `it`
+- if {index} is not specified, statements will use `key`
+
+	{empty}
+	{item identifier}
+	{item identifier} (, | and) {key identifier}
 
 
 
 {repeat expression}
 ---------------------
-for each {thing} in {collection} (: | INDENT) {statements}
-for every (other | {ordinal}) {thing} in {collection} (: | INDENT) {statements}
+- results of statements for each item collected in `the results`
 
-repeat {integer} times (: | INDENT) {statements}
-repeat with {variable} = {integer} to {integer}
+	for each {repeat identifier} in {collection} (: | INDENT) {statements}
+		eg	`for each in pile: turn it over`
+		eg	`for card card in pile: turn card over`
+		eg	`for each card, number in pile: turn card over if number > 10`
+
+	for every (other | {ordinal}) {repeat identifier} in {collection} (: | INDENT) {statements}
+
+	repeat {integer expression} times (: | INDENT) {statements}
+	repeat with {variable} = {integer} to {integer} (: | INDENT) {statements}
+
+	while {condition} (: | INDENT) {statements}
+	until {condition} (: | INDENT) {statements}
+
+	get {property} for each ({item idenfitifer}) in {collection}
+		eg	`get suit for each card in pile`
+		- collects properties as array of values in `the results`
+		- TODO: into `it`?
+
+	get {properties} for each ({item idenfitifer}) in {collection}
+		eg	`get suit and rank for each card in pile`
+		- collects properties as an array of objects {suit, rank} in `the results`
+
+
